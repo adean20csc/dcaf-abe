@@ -11,6 +11,7 @@ Contents:
 .. toctree::
     :maxdepth: 1
 
+    quickstart
     projects
     requirements
     config_autodeploy_node
