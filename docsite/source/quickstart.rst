@@ -62,8 +62,6 @@ For information on how to install Red Hat refer to the `Red Hat Install guide <h
 
 For more information on setting a static ip address refer to the `networking guide using the command line interface <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Using_the_Command_Line_Interface.html>`_.
 
-Now that the OS has been installed it is time to stage the automation resources.
-
 ABE - Configure the AutoDeployNode
 ----------------------------------
 The remainder of the AutoDeployNode configuration is scripted and can be run after a few environment variables have been defined. The build script uses ABE to provision and configure the AutoDeployNode. Review the script for more details of all the steps which are performed.
@@ -98,7 +96,7 @@ With the environment variables defined and the ssh key file created, the build s
 
 .. code-block:: bash
 
- curl https://raw.githubusercontent.com/csc/dcaf-abe/master ansible/build.sh | bash​
+ curl https://raw.githubusercontent.com/csc/dcaf-abe/master/ansible/build.sh | bash​
 
 .. note:: The build.sh script will perform a complete configuration of the AutoDeployNode using all project defaults. If there are changes required for your environment, a manual installation should be performed. Refer to the dcaf-ABE project documentation for more details.
 
