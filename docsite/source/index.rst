@@ -16,3 +16,4 @@ Contents:
     requirements
     config_autodeploy_node
     config_bada
+    known_issues
