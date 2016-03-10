@@ -10,18 +10,18 @@ This quick start guide describes how to use the following DCAF Automation projec
 - **Ansible-ScaleIO** - Ansible-ScaleIO is a fork of sperreault/ansible-scaleio to install, configure and manage ScaleIO. ScaleIO provides additional storage capabilities to the Red Hat OpenStack Platform.
 
 Before You Begin
-================
+----------------
 Ensure that the following requirements are met:
 
 User Access Requirements
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 To retrieve the automation resources from their online repositories you will need the following:
 
 - A valid github.com user account with access to the CSC Git repositories.
 - A Red Hat user account with a valid subscription associated with it.
 
 Network Requirements
---------------------
+~~~~~~~~~~~~~~~~~~~~
 There are several network requirements for the deployment.
 
 - DNS server IP addresses need to be provided
@@ -34,14 +34,14 @@ There are several network requirements for the deployment.
 - The AutoDeployNode has internet access and DNS
 
 Physical Hardware
------------------
+~~~~~~~~~~~~~~~~~
 BADA was developed and tested with the following hardware
 
 - DELL PowerEdge 630 | PowerEdge 730
 - DELL PERC H730 RAID Controller
 
 Target Deployment Environment
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The target deployment environment consists of all nodes that will participate in the deployment.
 
 - The physical hardware has been installed and connected to the network
@@ -51,11 +51,11 @@ The target deployment environment consists of all nodes that will participate in
 - An on-site resource to configure the out-of-band management IP addresses.
 
 Create the AutoDeployNode
-=========================
+-------------------------
 The AutoDeployNode is the central location for all DCAF automation projects. Once an OS has been installed ABE will be used to provision and configure the rest of the DCAF Automation resources.
 
 Install the RHEL OS
--------------------
+~~~~~~~~~~~~~~~~~~~
 Install the desired version of RHEL OS. This can be on a physical or virtual machine as long as all requirements are met. Be sure to set the hostname and static ip address.
 
 For information on how to install Red Hat refer to the `Red Hat Install guide <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/sect-installation-graphical-mode-x86.html>`_
