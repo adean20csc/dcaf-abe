@@ -3,25 +3,25 @@ DCAF Automation Quick Start Guide
 
 This quick start guide describes how to use the following DCAF Automation projects:
 
-- **dcaf-abe (ABE)** - ABE is used to provision a DCAF AutoDeployNode which is used as the basis for all DCAF automation. The AutoDeployNode contains all the automation resources and is used to perform all automation tasks.
+- **dcaf-ABE (ABE)** - ABE is used to provision a DCAF AutoDeployNode which is used as the basis for all DCAF automation. The AutoDeployNode contains all the automation resources and is used to perform all automation tasks.
 - **Hanlon** - Hanlon is an advanced provisioning platform which can provision both bare-metal and virtual systems.
-- **dcaf-bada (BADA)** - BADA provides an automated bare-metal deployment of the Red Hat Enterprise Linux OS using Hanlon.
+- **dcaf-BADA (BADA)** - BADA provides an automated bare-metal deployment of the Red Hat Enterprise Linux OS using Hanlon.
 - **Slimer** - Slimer is a fork of abrezhnev/slimer to deploy the Red Hat OpenStack Platform with high availability on BADA provisioned RHEL installations.
 - **Ansible-ScaleIO** - Ansible-ScaleIO is a fork of sperreault/ansible-scaleio to install, configure and manage ScaleIO. ScaleIO provides additional storage capabilities to the Red Hat OpenStack Platform.
 
 Before You Begin
-================
+----------------
 Ensure that the following requirements are met:
 
 User Access Requirements
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 To retrieve the automation resources from their online repositories you will need the following:
 
 - A valid github.com user account with access to the CSC Git repositories.
 - A Red Hat user account with a valid subscription associated with it.
 
 Network Requirements
---------------------
+~~~~~~~~~~~~~~~~~~~~
 There are several network requirements for the deployment.
 
 - DNS server IP addresses need to be provided
@@ -34,14 +34,14 @@ There are several network requirements for the deployment.
 - The AutoDeployNode has internet access and DNS
 
 Physical Hardware
------------------
+~~~~~~~~~~~~~~~~~
 BADA was developed and tested with the following hardware
 
 - DELL PowerEdge 630 | PowerEdge 730
 - DELL PERC H730 RAID Controller
 
 Target Deployment Environment
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The target deployment environment consists of all nodes that will participate in the deployment.
 
 - The physical hardware has been installed and connected to the network
@@ -51,18 +51,18 @@ The target deployment environment consists of all nodes that will participate in
 - An on-site resource to configure the out-of-band management IP addresses.
 
 Create the AutoDeployNode
-=========================
+-------------------------
 The AutoDeployNode is the central location for all DCAF automation projects. Once an OS has been installed ABE will be used to provision and configure the rest of the DCAF Automation resources.
 
 Install the RHEL OS
--------------------
+~~~~~~~~~~~~~~~~~~~
 Install the desired version of RHEL OS. This can be on a physical or virtual machine as long as all requirements are met. Be sure to set the hostname and static ip address.
 
 For information on how to install Red Hat refer to the `Red Hat Install guide <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/sect-installation-graphical-mode-x86.html>`_
 
 For more information on setting a static ip address refer to the `networking guide using the command line interface <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Using_the_Command_Line_Interface.html>`_.
 
-ABE - Configure the AutoDeployNode
+Configure the AutoDeployNode (ABE)
 ----------------------------------
 The remainder of the AutoDeployNode configuration is scripted and can be run after a few environment variables have been defined. The build script uses ABE to provision and configure the AutoDeployNode. Review the script for more details of all the steps which are performed.
 
@@ -102,3 +102,43 @@ With the environment variables defined and the ssh key file created, the build s
 
 At this point the AutoDeployNode has been deployed and is ready to start using for automation.
 
+Run DCAF Automation (BADA, Slimer, Ansible-scaleio)
+---------------------------------------------------
+The current DCAF Automation is run from BADA and is configured to use Slimer and Ansible-scaleio. This will deploy Red Hat OpenStack with HA and ScaleIO on a base RHEL OS as follows:
+
+- 3 - Controller nodes
+- 1 - Compute node
+- 3 - Swift nodes
+- 3 - ScaleIO nodes
+
+Before the automation can be used the source configuration needs to be sanitized and configured for the deployment environment.
+
+Create the Inventory
+~~~~~~~~~~~~~~~~~~~~
+There are two parts to the inventory, the ``hosts.ini`` and the ``host.yml``. For more information and an example ``host.yml`` file see the dcaf-BADA project documentation.
+
+- **hosts.ini** - edit the ``dcaf-bada/inventory/hosts.ini`` file. There are existing [group] sections based on the role that the host should have.
+- **host.yml** - There should be a dcaf-bada/inventory/host_vars/host.yml for each host in the hosts.ini file. Use the ``dcaf-bada/inventory/host_vars/example_host.yml`` as a template and change values as needed.
+
+.. note:: Each ``host.yml`` file must include the host hardware ``smbios-uuid``. This can be done using the hosts vendor management tools. Refer to the vendor documentation for more information.
+
+Update Group Variables
+~~~~~~~~~~~~~~~~~~~~~~
+Review the ``dcaf-bada/inventory/group_vars/all.yml`` file and modify as needed. It defines variables for BADA used deployment-wide.
+
+Prepare Hosts for Deployment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Run the ``dcaf-bada/site_reset.yml`` playbook to power cycle the hosts and have them discovered by Hanlon:
+​
+
+.. code-block:: bash
+
+ ansible-playbook site_reset.yml
+
+Run the BADA Playbook
+~~~~~~~~~~~~~~~~~~~~~
+Run the ``dcaf-bada/site.yml`` playbook. This will run BADA to deploy the RHEL OS, Slimer to deploy Red Hat OpenStack with HA and Ansible-scaleio to deploy ScaleIO.
+
+.. code-block::
+
+ ansible-playbook site.yml
