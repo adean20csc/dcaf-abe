@@ -1,8 +1,8 @@
 Projects
 ========
 
-DCAF includes the following CSC projects which are kept under version control in
-a CSC GitHub repository:
+CSC DCAF includes the following CSC projects which are kept under version
+control in a CSC GitHub repository:
 
 - `Ansible-ScaleIO <https://github.com/csc/ansible-scaleio>`_ - The
   CSC Ansible-ScaleIO project, a fork of
@@ -16,7 +16,7 @@ a CSC GitHub repository:
   application which can deploy both bare-metal and virtual systems.
 
 - `dcaf-abe (ABE) <https://github.com/csc/dcaf-abe>`_ - Project ABE creates the
-  the AutoDeploy Node which is used as the basis for all DCAF automation. It
+  the AutoDeploy Node which is used as the basis for all CSC DCAF automation. It
   contains all the automation resources and is used to perform all automation
   tasks.
 
