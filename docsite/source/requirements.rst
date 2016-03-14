@@ -1,6 +1,6 @@
 Requirements & Dependencies
 ===========================
-A DCAF Deployment has the following requirements and dependencies.
+A CSC DCAF Deployment has the following requirements and dependencies.
 
 User Access Requirements
 ------------------------
@@ -46,7 +46,7 @@ to download the automation resources and prepare the bootable USB media.
 AutoDeployNode
 --------------
 The AutoDeployNode will contain all the necessary automation resources to use
-DCAF.
+CSC DCAF.
 
 It has the following requirements:
 

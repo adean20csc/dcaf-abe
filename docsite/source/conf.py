@@ -51,9 +51,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'DCAF-ABE'
+project = u'CSC DCAF'
 copyright = u'2016, CSC'
-author = u'Automation Team'
+author = u'Extreme Automation'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -205,7 +205,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'DCAF-ABEdoc'
+htmlhelp_basename = 'CSC-DCAFdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -227,7 +227,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'DCAF-ABE.tex', u'DCAF-ABE Documentation',
+    (master_doc, 'CSC-DCAF.tex', u'DCAF-ABE Documentation',
      u'Automation Team', 'manual'),
 ]
 
@@ -257,7 +257,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'dcaf-abe', u'DCAF-ABE Documentation',
+    (master_doc, 'dcaf', u'CSC DCAF Documentation',
      [author], 1)
 ]
 
@@ -271,8 +271,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'DCAF-ABE', u'DCAF-ABE Documentation',
-     author, 'DCAF-ABE', 'One line description of project.',
+    (master_doc, 'DCAF', u'CSC DCAF Documentation',
+     author, 'CSC DCAF', 'A framework of resources designed to automate various platforms and deployments within the data center.',
      'Miscellaneous'),
 ]
 

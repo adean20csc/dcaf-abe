@@ -154,12 +154,12 @@ Now the source for Ansible must be cloned. A particular version of Ansible is cu
     cd ..
 
 
-**Retrieve the DCAF projects**
+**Retrieve the CSC DCAF projects**
 
-Ansible has been installed and will be used to perform an automated download of the DCAF project resources. First we need to download the :code:`initial_stage` play from the :code:`dcaf-abe` Git repository.
+Ansible has been installed and will be used to perform an automated download of the CSC DCAF project resources. First we need to download the :code:`initial_stage` play from the :code:`dcaf-abe` Git repository.
 
 .. code-block:: bash
-    
+
     wget https://raw.githubusercontent.com/csc/dcaf-abe/master/ansible/initial_stage.yml
 
 In order to download the projects from GitHub, a keyfile must be created. Put the text for a private key which has access to the GitHub repos in the lines below:
@@ -175,7 +175,7 @@ In order to download the projects from GitHub, a keyfile must be created. Put th
 Change the file permissions to ensure security.
 
 .. code-block:: bash
-    
+
     chmod 0600 ~/github.pem
 
 Now the initial\_stage.yml playbook can be run, as shown below:
@@ -190,8 +190,8 @@ Now that the ABE project has been retrieved it can be used to install the remain
 
     cd /opt/autodeploy/projects/dcaf-abe/ansible
 
-Next run the :code:`stage_resources.yml` play to download the DCAF automation resources. The :code:`stage_resources.yml` play requires valid user accounts to GitHub and Red Hat as outlined in section 2.1 User Access Requirements. Before you run the play change into the :code:`/opt/autodeploy/projects/dcaf-abe/ansible` directory and edit the following variables in the :code:`inventory/group_vars/all.yml` file.
-    
+Next run the :code:`stage_resources.yml` play to download the CSC DCAF automation resources. The :code:`stage_resources.yml` play requires valid user accounts to GitHub and Red Hat as outlined in section 2.1 User Access Requirements. Before you run the play change into the :code:`/opt/autodeploy/projects/dcaf-abe/ansible` directory and edit the following variables in the :code:`inventory/group_vars/all.yml` file.
+
 .. code-block:: yaml
 
     # Required User Variables
