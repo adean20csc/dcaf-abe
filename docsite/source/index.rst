@@ -16,5 +16,6 @@ Contents:
     projects
     requirements
     config_autodeploy_node
+    offline_autodeploy_node
     config_bada
     known_issues

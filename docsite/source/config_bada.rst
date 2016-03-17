@@ -1,17 +1,26 @@
 Configure BADA for Site Deployment
 ==================================
 
-At this point the AutoDeployNode has been successfully created and is ready to use. The automation projects source configuration needs to be sanitized and configured for the deployment environment.
+At this point the AutoDeployNode has been successfully created and is ready to
+use. The automation projects source configuration needs to be sanitized and
+configured for the deployment environment.
 
 Create an inventory
 -------------------
 
-Begin by editing the example inventory file :code:`inventory/example_inventory.csv` with details reflecting the deployment environment. The example\_inventory.csv has some added columns that this deployment won’t be used that should be removed including disk, fstype, mount\_opts and mount. An inventory creation playbook :code:`site_inventory.yml` will be run which will use this file to create all needed host variables.
+Begin by editing the example inventory file :code:`inventory/example_inventory.csv`
+with details reflecting the deployment environment. The example\_inventory.csv has
+some added columns that this deployment won’t be used that should be removed
+including disk, fstype, mount\_opts and mount. An inventory creation playbook
+:code:`site_inventory.yml` will be run which will use this file to create all
+needed host variables.
 
 Update group variables
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
-There is a file which defines variables for the project used deployment-wide :code:`inventory/group_vars/all.yml`. This needs to be edited with values that reflect the deployment environment in order for the following scripts to function.
+There is a file which defines variables for the project used deployment-wide
+:code:`inventory/group_vars/all.yml`. This needs to be edited with values that
+reflect the deployment environment in order for the following scripts to function.
 
 Running the initial deployment playbook
 ---------------------------------------
@@ -22,7 +31,9 @@ After all variables are put in place, the inventory playbook needs to be run:
 
     ansible-playbook site_inventory.yml
 
-This first run will populate all needed host variables and definitions from the inventory file previously created. This playbook will need to be run a second time to retrieve the SMBIOS UUID from each host and update the host\_vars files:
+This first run will populate all needed host variables and definitions from the
+inventory file previously created. This playbook will need to be run a second
+time to retrieve the SMBIOS UUID from each host and update the host\_vars files:
 
 .. code-block:: bash
 
@@ -31,7 +42,8 @@ This first run will populate all needed host variables and definitions from the 
 Resetting the environment and preparing for deployment
 ------------------------------------------------------
 
-The next playbook being run will power cycle all nodes in the deployment and ensure they have been discovered:
+The next playbook being run will power cycle all nodes in the deployment and
+ensure they have been discovered:
 
 .. code-block:: bash
 
@@ -44,11 +56,20 @@ BADA Configuration Reference
 Configuration Directory/File Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Ansible configurations are stored in `.yml <http://docs.ansible.com/YAMLSyntax.html>`_ (`YAML <http://yaml.org/>`__ - YAML Ain't Markup Language) format. They contain all the information needed by the Ansible Playbooks which are also stored in .yml format.
+The Ansible configurations are stored in :code:`YAML` format. They contain all the
+information needed by the Ansible Playbooks and are stored in .yml format. Refer
+to http://docs.ansible.com/YAMLSyntax.html for more information about the
+``Ansible YAML Syntax``.
 
-Ansible works against multiple systems in the infrastructure at the same time. It does this by selecting portions of systems listed in the Ansible `inventory <http://docs.ansible.com intro_inventory.html>`_ file. This inventory is configurable and multiple inventory files can be used at the same time.
+Ansible works against multiple systems in the infrastructure at the same time. It
+does this by selecting portions of systems listed in the Ansible :code:`inventory`
+file. This inventory is configurable and multiple inventory files can be used at
+the same time. Refer to http://docs.ansible.com/intro_inventory.html for more
+information about the Ansible inventory.
 
-This is how the inventory for BADA is structured. As previously mentioned BADA contains elements of Slimer and Ansible-ScaleIO so they are present in the inventory. Notice there is a :code:`host_var` file for each host.
+This is how the inventory for BADA is structured. As previously mentioned BADA
+contains elements of Slimer and Ansible-ScaleIO so they are present in the inventory.
+Notice there is a :code:`host_var` file for each host.
 
 .. code-block:: bash
 
@@ -76,9 +97,15 @@ This is how the inventory for BADA is structured. As previously mentioned BADA c
 hosts.ini
 ~~~~~~~~~
 
-The hosts.ini file should include all hosts in the environment to be deployed to. The hosts can be grouped as needed by specifying the [group name] in square brackets. Refer to the Ansible `Inventory <http://docs.ansible.com/intro_inventory.html>`__ documentation for more information.
+The hosts.ini file should include all hosts in the environment to be deployed to.
+The hosts can be grouped as needed by specifying the :code:`[group name]` in
+square brackets. Refer to http://docs.ansible.com/intro_inventory.html for more
+information about the Ansible inventory.
 
-The inventory for project BADA supports Slimer and Ansible-ScaleIO so in our example there are groups for both. There is a :code:`[group_heading]` for each group of like hosts with the corresponding hosts beneath it.  Specifically for BADA the :code:`[deploy:children]` group is used.
+The inventory for project BADA supports Slimer and Ansible-ScaleIO so in our
+example there are groups for both. There is a :code:`[group_heading]` for each
+group of like hosts with the corresponding hosts beneath it. Specifically for BADA
+the :code:`[deploy:children]` group is used.
 
 .. code-block:: bash
 
@@ -86,18 +113,18 @@ The inventory for project BADA supports Slimer and Ansible-ScaleIO so in our exa
     controller-1
     controller-2
     controller-3
-    
+
     [swift]
     controller-1
     controller-2
     controller-3
-    
+
     [compute]
     compute-1
     compute-2
     compute-3
     compute-4
-    
+
     [scaleio]
     compute-1
     compute-2
@@ -106,48 +133,54 @@ The inventory for project BADA supports Slimer and Ansible-ScaleIO so in our exa
     scaleio-1
     scaleio-2
     scaleio-3
-    
+
     [mdm]
     scaleio-1
     scaleio-2
-    
+
     [tb]
     scaleio-3
-    
+
     [auto_deploy_node]
     auto-deploy-node
-    
+
     [mongodb:children]
     controller
-    
+
     [openstack:children]
     controller
     compute
     swift
-    
+
     [deploy:children]
     openstack
     scaleio
-    
+
     [sds:children]
     mdm
     tb
-    
+
     [gateway:children]
     controller
-    
+
     [sdc:children]
     sds
     gateway
     compute
 
+.. note::
 
-.. note:: The :code:`[mdm]` and :code:`[tb]` sections should refer to the same hosts as the :code:`[compute]` section if you are co-locating the ScaleIO and Compute services.
+    The :code:`[mdm]` and :code:`[tb]` sections should refer to the same hosts
+    as the :code:`[compute]` section if you are co-locating the ScaleIO and
+    Compute services.
 
-host\_vars
-~~~~~~~~~~
+host_vars
+~~~~~~~~~
 
-The variables that will be applied to a specific host by Ansible are stored in a :code:`inventory/host_vars/host_name.yml` files. There should be one of these for each host in the hosts.ini file. These files should be created automatically when :code:`site_inventory.yml` is run in the previous steps.
+The variables that will be applied to a specific host by Ansible are stored in
+a :code:`inventory/host_vars/host_name.yml` files. There should be one of these
+for each host in the hosts.ini file. These files should be created automatically
+when :code:`site_inventory.yml` is run in the previous steps.
 
 .. code-block:: bash
 
@@ -168,12 +201,17 @@ The variables that will be applied to a specific host by Ansible are stored in a
     │   └── swift3.yml
 
 
-group\_vars
-~~~~~~~~~~~
+group_vars
+~~~~~~~~~~
 
-As mentioned above Ansible allows you to group hosts and assign variables to a :code:`[group]`. This allows you to run plays against multiple hosts without having to specify them individually. The group \_vars variables are in the :code:`inventory/group_vars/all.yml`. The all.yml is used by all hosts in the hosts.ini.
+As mentioned above Ansible allows you to group hosts and assign variables to a
+:code:`[group]`. This allows you to run plays against multiple hosts without
+having to specify them individually. The group \_vars variables are in the
+:code:`inventory/group_vars/all.yml`. The all.yml is used by all hosts in the
+hosts.ini.
 
-Edit the :code:`group_vars/all.yml` file as needed for your environment. The following variables are all you may need to change.
+Edit the :code:`group_vars/all.yml` file as needed for your environment. The
+following variables are all you may need to change.
 
 
 .. code-block:: yaml
@@ -188,8 +226,11 @@ Edit the :code:`group_vars/all.yml` file as needed for your environment. The fol
     ipmi_username: root
     ipmi_password: localpassword
 
-
-variables in roles
+Variables in Roles
 ~~~~~~~~~~~~~~~~~~
 
-Ansible roles allow you to organize playbooks and reuse common configuration steps between different types of hosts. A role will allow you to define what a host is supposed to do, instead of having to specify the steps needed to get a server configured a certain way. Role specific variables are stored in the role/vars directory.
+Ansible roles allow you to organize playbooks and reuse common configuration steps
+between different types of hosts. A role will allow you to define what a host is
+supposed to do, instead of having to specify the steps needed to get a server
+configured a certain way. Role specific variables are stored in the role/vars
+directory.

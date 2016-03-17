@@ -20,10 +20,12 @@ projects:
 
 Before You Begin
 ----------------
+
 Ensure that the following requirements are met:
 
 User Access Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 To retrieve the automation resources from their online repositories you will
 need the following:
 
@@ -32,6 +34,7 @@ need the following:
 
 Network Requirements
 ~~~~~~~~~~~~~~~~~~~~
+
 There are several network requirements for the deployment.
 
 - DNS server IP addresses need to be provided
@@ -45,6 +48,7 @@ There are several network requirements for the deployment.
 
 Physical Hardware
 ~~~~~~~~~~~~~~~~~
+
 BADA was developed and tested with the following hardware
 
 - DELL PowerEdge 630 | PowerEdge 730
@@ -52,6 +56,7 @@ BADA was developed and tested with the following hardware
 
 Target Deployment Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The target deployment environment consists of all nodes that will participate in
 the deployment.
 
@@ -63,12 +68,14 @@ the deployment.
 
 Create the AutoDeployNode
 -------------------------
+
 The AutoDeployNode is the central location for all CSC DCAF automation projects.
 Once an OS has been installed ABE will be used to provision and configure the
 rest of the DCAF Automation resources.
 
 Install the RHEL OS
 ~~~~~~~~~~~~~~~~~~~
+
 Install the desired version of RHEL OS. This can be on a physical or virtual
 machine as long as all requirements are met. Be sure to set the hostname and
 static ip address.
@@ -80,7 +87,8 @@ For more information on setting a static ip address refer to the `networking
 guide using the command line interface <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Using_the_Command_Line_Interface.html>`_.
 
 Configure the AutoDeployNode (ABE)
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The remainder of the AutoDeployNode configuration is scripted and can be run
 after a few environment variables have been defined. The build script uses ABE
 to provision and configure the AutoDeployNode. Review the script for more
@@ -91,26 +99,26 @@ Set the environment variables for Red Hat Subscription Manage credentials:
 
 .. code-block:: bash
 
- export RHN_USER="username"
- export RHN_PASS="password"    # escape dollar signs (\$)
- export RHN_POOL="pool_id"     # 32-char pool ID
+    export RHN_USER="username"
+    export RHN_PASS="password"    # escape dollar signs (\$)
+    export RHN_POOL="pool_id"     # 32-char pool ID
 
 Create a ssh key file for GitHub access.  Put the text for a private key which
-has access to the GitHub repos in the lines below:
+has access to the GitHub repositories in the lines below:
 
 .. code-block:: bash
 
- cat << EOF > ~/github.pem
- -----BEGIN RSA PRIVATE KEY-----
- <insert_key_file_text_here>
- -----END RSA PRIVATE KEY-----
- EOF
+    cat << EOF > ~/github.pem
+    -----BEGIN RSA PRIVATE KEY-----
+    <insert_key_file_text_here>
+    -----END RSA PRIVATE KEY-----
+    EOF
 
 Change the file permissions to ensure security.
 
 .. code-block:: bash
 
- chmod 0600 ~/github.pem
+    chmod 0600 ~/github.pem
 
 With the environment variables defined and the ssh key file created, the build
 script can be launched:
@@ -118,18 +126,21 @@ script can be launched:
 
 .. code-block:: bash
 
- curl https://raw.githubusercontent.com/csc/dcaf-abe/master/ansible/build.sh | bash​
+    curl https://raw.githubusercontent.com/csc/dcaf-abe/master/ansible/build.sh | bash​
 
-.. note:: The build.sh script will perform a complete configuration of the
- AutoDeployNode using all project defaults. If there are changes required for
- your environment, a manual installation should be performed. Refer to the
- dcaf-ABE project documentation for more details.
+.. note::
+
+    The build.sh script will perform a complete configuration of the AutoDeployNode
+    using all project defaults. If there are changes required for your environment,
+    a manual installation should be performed. Refer to the dcaf-ABE project
+    documentation for more details.
 
 At this point the AutoDeployNode has been deployed and is ready to start using
 for automation.
 
 Run CSC DCAF Automation (BADA, Slimer, Ansible-scaleio)
 -------------------------------------------------------
+
 The current CSC DCAF Automation is run from BADA and is configured to use Slimer
 and Ansible-ScaleIO. This will deploy Red Hat OpenStack with HA and ScaleIO on a
 base RHEL OS as follows:
@@ -144,41 +155,47 @@ and configured for the deployment environment.
 
 Create the Inventory
 ~~~~~~~~~~~~~~~~~~~~
-There are two parts to the inventory, the ``hosts.ini`` and the ``host.yml``.
-For more information and an example ``host.yml`` file see the dcaf-BADA project
+
+There are two parts to the inventory, the :code:`hosts.ini`` and the :code:`host.yml`.
+For more information and an example :code:`host.yml` file see the dcaf-BADA project
 documentation.
 
-- **hosts.ini** - edit the ``dcaf-bada/inventory/hosts.ini`` file. There are
+- **hosts.ini** - edit the :code:`dcaf-bada/inventory/hosts.ini` file. There are
   existing [group] sections based on the role that the host should have.
-- **host.yml** - There should be a dcaf-bada/inventory/host_vars/host.yml for
-  each host in the hosts.ini file. Use the ``dcaf-bada/inventory/host_vars/example_host.yml``
+- **host.yml** - There should be a :code:`dcaf-bada/inventory/host_vars/host.yml`
+  for each host in the hosts.ini file. Use the :code:`dcaf-bada/inventory/host_vars/example_host.yml`
   as a template and change values as needed.
 
-.. note:: Each ``host.yml`` file must include the host hardware ``smbios-uuid``.
- This can be done using the hosts vendor management tools. Refer to the vendor
- documentation for more information.
+.. note::
+
+    Each ``host.yml`` file must include the host hardware ``smbios-uuid``.
+    This can be done using the hosts vendor management tools. Refer to the vendor
+    documentation for more information.
 
 Update Group Variables
 ~~~~~~~~~~~~~~~~~~~~~~
-Review the ``dcaf-bada/inventory/group_vars/all.yml`` file and modify as needed.
+
+Review the :code:`dcaf-bada/inventory/group_vars/all.yml` file and modify as needed.
 It defines variables for BADA used deployment-wide.
 
 Prepare Hosts for Deployment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Run the ``dcaf-bada/site_reset.yml`` playbook to power cycle the hosts and have
+
+Run the :code:`dcaf-bada/site_reset.yml` playbook to power cycle the hosts and have
 them discovered by Hanlon:
 ​
 
 .. code-block:: bash
 
- ansible-playbook site_reset.yml
+    ansible-playbook site_reset.yml
 
 Run the BADA Playbook
 ~~~~~~~~~~~~~~~~~~~~~
-Run the ``dcaf-bada/site.yml`` playbook. This will run BADA to deploy the RHEL
+
+Run the :code:`dcaf-bada/site.yml` playbook. This will run BADA to deploy the RHEL
 OS, Slimer to deploy Red Hat OpenStack with HA and Ansible-scaleio to deploy
 ScaleIO.
 
-.. code-block::
+.. code-block:: bash
 
- ansible-playbook site.yml
+    ansible-playbook site.yml
