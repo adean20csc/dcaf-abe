@@ -1,9 +1,11 @@
 Requirements & Dependencies
 ===========================
+
 A CSC DCAF Deployment has the following requirements and dependencies.
 
 User Access Requirements
 ------------------------
+
 To retrieve the automation resources from their online repositories you will
 need the following:
 
@@ -13,13 +15,15 @@ need the following:
 
 Physical Hardware
 -----------------
+
 BADA was developed and tested with the following hardware:
 
-- DELL PowerEdge 630 \| PowerEdge 730
+- DELL PowerEdge 630 | PowerEdge 730
 - DELL PERC H730 RAID Controller
 
 Network Requirements
 --------------------
+
 There are several network requirements for the deployment.
 
 - DNS server IP addresses need to be provided
@@ -34,8 +38,9 @@ There are several network requirements for the deployment.
 
 Offline Staging Node (to stage offline AutoDeployNode)
 ------------------------------------------------------
+
 For an offline mode deployment a Linux machine with Internet access is required
-to download the automation resources and prepare the bootable USB media.
+to download the automation resources and prepare the USB drive.
 
 - Staging node (existing or new laptop/server)
 - Red Hat Enterprise Linux workstation or server instance
@@ -45,6 +50,7 @@ to download the automation resources and prepare the bootable USB media.
 
 AutoDeployNode
 --------------
+
 The AutoDeployNode will contain all the necessary automation resources to use
 CSC DCAF.
 
@@ -59,6 +65,7 @@ It has the following requirements:
 
 Target Deployment Environment
 -----------------------------
+
 The target deployment environment consists of all nodes that will participate in
 the deployment.
 
